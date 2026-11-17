@@ -1,0 +1,14 @@
+node_modules/
+dist/
+public-ai/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+local-training/
+evaluation/
+backups/
+research/
+.publish/
+pages-dist/

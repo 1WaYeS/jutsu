@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {BasicMessageController} from './basic-messages.js';
+function setup(){const calls=[];const speech={speak:(text)=>{calls.push(text);return true},stop:()=>calls.push('STOP'),voices:()=>[]};return {calls,controller:new BasicMessageController({speech})};}
+test('camera messages remain visible with audio off; unsupported predictions are refused',()=>{const {calls,controller}=setup();assert.equal(controller.accept('Hello'),true);assert.equal(controller.text,'Hello!');assert.deepEqual(calls,[]);assert.equal(controller.accept('Thank you'),false);assert.equal(controller.accept('HELP'),false);assert.equal(controller.text,'Hello!');assert.equal(controller.replay(),false);});
+test('audio toggle stops speech immediately and never speaks stale text when enabled',()=>{const {calls,controller}=setup();controller.accept('Yes');controller.setAudio(true);assert.deepEqual(calls,[]);controller.accept('No');assert.deepEqual(calls,['No.']);controller.setAudio(false);assert.deepEqual(calls,['No.','STOP']);assert.equal(controller.text,'No.');assert.equal(controller.replay(),false);});
+test('replay is explicit; clear removes captions and cancels audio',()=>{const {calls,controller}=setup();controller.setAudio(true);controller.accept('Hello');controller.replay();assert.deepEqual(calls,['Hello!','Hello!']);controller.clear();assert.equal(controller.text,'');assert.equal(controller.replay(),false);assert.equal(calls.at(-1),'STOP');});

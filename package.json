@@ -1,0 +1,19 @@
+{
+  "name": "jutsu",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "build": "node build-ai.mjs && node build-mobile.mjs",
+    "check": "node --check server.mjs && node --check mobile-app.js && node --check basic-messages.js && node --check everyday-detector.js && node --check camera-controller.js && node --check speech-controller.js && node --check sentence-builder.js && node --check app.js && node --check ai-app.js && node --check yes-detector.js && node --check train-app.js && node --check personal-recognizer.js && node --check personal-worker.js && node --check sample-store.js",
+    "test": "node --test everyday-detector.test.mjs basic-messages.test.mjs core.test.mjs yes-detector.test.js ai-integration.test.mjs personal-recognizer.test.mjs",
+    "build:ai": "node build-ai.mjs"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "1.2.2",
+    "onnxruntime-web": "1.31.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12"
+  }
+}
